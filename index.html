@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta Europeia</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container text-center">
+        <h1 class="my-4">Tabela Roleta </h1>
+        <div class="row">
+            <div class="col-12">
+                <div id="roulette-table" class="d-flex flex-wrap justify-content-center"></div>
+            </div>
+        </div>
+        <h2 class="my-4">3 últimos números da roleta </h2>
+        <div class="row">
+            <div class="col-4"><span id="selected1" class="selected-number"></span></div>
+            <div class="col-4"><span id="selected2" class="selected-number"></span></div>
+            <div class="col-4"><span id="selected3" class="selected-number"></span></div>
+        </div>
+        <h2 class="my-4">Apostar</h2>
+        <div class="row">
+            <div class="col-4"><span id="corresponding1" class="corresponding-number"></span></div>
+            <div class="col-4"><span id="corresponding2" class="corresponding-number"></span></div>
+            <div class="col-4"><span id="corresponding3" class="corresponding-number"></span></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
