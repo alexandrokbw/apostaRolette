@@ -1,4 +1,117 @@
-21, 31],
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botões Selecionáveis</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container-custom {
+            width: 200px;
+            height: 500px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .btn-custom {
+            width: 100%;
+            height: 50px;
+            margin: 0;
+            border: 1px solid #ccc;
+            padding: 0;
+        }
+        .col-3, .col-12, .row.no-gutters {
+            padding: 0;
+            margin: 0;
+        }
+        .selected {
+            border: 2px solid blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-custom mt-5">
+        <div class="row no-gutters">
+            <div class="col-12 mb-0">
+                <button class="btn btn-custom" style="background-color: green; color: white;" id="btn-0">
+                    0
+                </button>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <script>
+                const buttonData = [
+                    { number: 1, color: 'red' },
+                    { number: 2, color: 'black' },
+                    { number: 3, color: 'red' },
+                    { number: 4, color: 'black' },
+                    { number: 5, color: 'red' },
+                    { number: 6, color: 'black' },
+                    { number: 7, color: 'red' },
+                    { number: 8, color: 'black' },
+                    { number: 9, color: 'red' },
+                    { number: 10, color: 'black' },
+                    { number: 11, color: 'black' },
+                    { number: 12, color: 'red' },
+                    { number: 13, color: 'black' },
+                    { number: 14, color: 'red' },
+                    { number: 15, color: 'black' },
+                    { number: 16, color: 'red' },
+                    { number: 17, color: 'black' },
+                    { number: 18, color: 'red' },
+                    { number: 19, color: 'red' },
+                    { number: 20, color: 'black' },
+                    { number: 21, color: 'red' },
+                    { number: 22, color: 'black' },
+                    { number: 23, color: 'red' },
+                    { number: 24, color: 'black' },
+                    { number: 25, color: 'red' },
+                    { number: 26, color: 'black' },
+                    { number: 27, color: 'red' },
+                    { number: 28, color: 'black' },
+                    { number: 29, color: 'black' },
+                    { number: 30, color: 'red' },
+                    { number: 31, color: 'black' },
+                    { number: 32, color: 'red' },
+                    { number: 33, color: 'black' },
+                    { number: 34, color: 'red' },
+                    { number: 35, color: 'black' },
+                    { number: 36, color: 'red' }
+                ];
+
+                const correspondingNumbers = {
+                    "0": [0, 10, 20, 30],
+                    "1": [1, 11, 21, 31],
+                    "2": [2, 12, 22, 32],
+                    "3": [3, 13, 23, 33],
+                    "4": [4, 14, 24, 34],
+                    "5": [5, 15, 25, 35],
+                    "6": [6, 16, 26, 36],
+                    "7": [7, 17, 27],
+                    "8": [8, 18, 28],
+                    "9": [9, 19, 29],
+                    "10": [0, 10, 20, 30],
+                    "11": [1, 11, 21, 31],
+                    "12": [2, 12, 22, 32],
+                    "13": [3, 13, 23, 33],
+                    "14": [4, 14, 24, 34],
+                    "15": [5, 15, 25, 35],
+                    "16": [6, 16, 26, 36],
+                    "17": [7, 17, 27],
+                    "18": [8, 18, 28],
+                    "19": [9, 19, 29],
+                    "20": [0, 10, 20, 30],
+                    "21": [1, 11, 21, 31],
+                    "22": [2, 12, 22, 32],
+                    "23": [3, 13, 23, 33],
+                    "24": [4, 14, 24, 34],
+                    "25": [5, 15, 25, 35],
+                    "26": [6, 16, 26, 36],
+                    "27": [7, 17, 27],
+                    "28": [8, 18, 28],
+                    "29": [9, 19, 29],
+                    "30": [0, 10, 20, 30],
+                    "31": [1, 11, 21, 31],
                     "32": [2, 12, 22, 32],
                     "33": [3, 13, 23, 33],
                     "34": [4, 14, 24, 34],
@@ -20,20 +133,29 @@
 
                 document.addEventListener('DOMContentLoaded', function () {
                     const btnGroup = document.querySelectorAll('.btn-group .btn-primary');
-                    
+
+                    function updateCorrespondingNumbers() {
+                        selectedButtons.forEach((num, index) => {
+                            if (index < 3) {
+                                btnGroup[index].textContent = correspondingNumbers[num].join(', ');
+                            }
+                        });
+                        for (let i = selectedButtons.length; i < 3; i++) {
+                            btnGroup[i].textContent = '#Números correspondentes';
+                        }
+                    }
+
                     document.querySelectorAll('.btn-custom').forEach(button => {
                         button.addEventListener('click', function () {
                             const num = this.textContent.trim();
-                            if (!selectedButtons.includes(num) && selectedButtons.length < 3) {
+                            if (selectedButtons.includes(num)) {
+                                this.classList.remove('selected');
+                                selectedButtons = selectedButtons.filter(n => n !== num);
+                            } else if (selectedButtons.length < 3) {
                                 this.classList.add('selected');
                                 selectedButtons.push(num);
                             }
-                            if (selectedButtons.length === 3) {
-                                const displayNumbers = selectedButtons.map(n => correspondingNumbers[n]);
-                                displayNumbers.forEach((nums, index) => {
-                                    btnGroup[index].textContent = nums.join(', ');
-                                });
-                            }
+                            updateCorrespondingNumbers();
                         });
                     });
                 });
@@ -44,9 +166,9 @@
     <!-- Grupo de botões para números correspondentes -->
     <div class="container mt-3 text-center">
         <div class="btn-group">
-            <a class="btn btn-primary"></a>
-            <a class="btn btn-primary"></a>
-            <a class="btn btn-primary"></a>
+            <a class="btn btn-primary" aria-current="page">#Números correspondentes</a>
+            <a class="btn btn-primary">#Números correspondentes</a>
+            <a class="btn btn-primary">#Números correspondentes</a>
         </div>
     </div>
 
