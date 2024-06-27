@@ -1,33 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roleta Europeia</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container text-center">
-        <h1 class="my-4">Tabela Roleta </h1>
-        <div class="row">
-            <div class="col-12">
-                <div id="roulette-table" class="d-flex flex-wrap justify-content-center"></div>
-            </div>
-        </div>
-        <h2 class="my-4">3 últimos números da roleta </h2>
-        <div class="row">
-            <div class="col-4"><span id="selected1" class="selected-number"></span></div>
-            <div class="col-4"><span id="selected2" class="selected-number"></span></div>
-            <div class="col-4"><span id="selected3" class="selected-number"></span></div>
-        </div>
-        <h2 class="my-4">Apostar + 2 Vizinhos</h2>
-        <div class="row">
-            <div class="col-4"><span id="corresponding1" class="corresponding-number"></span></div>
-            <div class="col-4"><span id="corresponding2" class="corresponding-number"></span></div>
-            <div class="col-4"><span id="corresponding3" class="corresponding-number"></span></div>
+21, 31],
+                    "32": [2, 12, 22, 32],
+                    "33": [3, 13, 23, 33],
+                    "34": [4, 14, 24, 34],
+                    "35": [5, 15, 25, 35],
+                    "36": [6, 16, 26, 36]
+                };
+
+                let selectedButtons = [];
+
+                buttonData.forEach(button => {
+                    document.write(`
+                        <div class="col-3 mb-0">
+                            <button class="btn btn-custom" style="background-color: ${button.color}; color: white;" id="btn-${button.number}">
+                                ${button.number}
+                            </button>
+                        </div>
+                    `);
+                });
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const btnGroup = document.querySelectorAll('.btn-group .btn-primary');
+                    
+                    document.querySelectorAll('.btn-custom').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const num = this.textContent.trim();
+                            if (!selectedButtons.includes(num) && selectedButtons.length < 3) {
+                                this.classList.add('selected');
+                                selectedButtons.push(num);
+                            }
+                            if (selectedButtons.length === 3) {
+                                const displayNumbers = selectedButtons.map(n => correspondingNumbers[n]);
+                                displayNumbers.forEach((nums, index) => {
+                                    btnGroup[index].textContent = nums.join(', ');
+                                });
+                            }
+                        });
+                    });
+                });
+            </script>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Grupo de botões para números correspondentes -->
+    <div class="container mt-3 text-center">
+        <div class="btn-group">
+            <a class="btn btn-primary"></a>
+            <a class="btn btn-primary"></a>
+            <a class="btn btn-primary"></a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS e dependências -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
