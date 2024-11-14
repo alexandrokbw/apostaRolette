@@ -7,9 +7,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .green { color: green; font-weight: bold; }
-        .red { color: red; font-weight: bold; }
-        .resultado-status { width: 80px; }
+        .btn-green { background-color: green; color: white; }
+        .btn-red { background-color: red; color: white; }
     </style>
 </head>
 <body class="bg-light">
@@ -21,15 +20,12 @@
             <button class="btn btn-primary" onclick="verificarGatilho()">Verificar</button>
         </div>
 
-        <div class="alert alert-info" role="alert" id="resultado">Digite um número e clique em "Verificar" para ver o resultado.</div>
-
         <h3 class="mt-4">Histórico de Resultados</h3>
         <table class="table table-bordered table-striped mt-3">
             <thead class="table-dark">
                 <tr>
                     <th>Número</th>
                     <th>Gatilho</th>
-                    <th>Resultado</th>
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -50,7 +46,7 @@
 
         function verificarGatilho() {
             const numero = parseInt(document.getElementById('numeroInput').value);
-            let gatilhoEncontrado = null;
+            let gatilhoEncontrado = 'Nenhum';
 
             // Verifica em qual gatilho o número se encontra
             for (const [gatilho, numeros] of Object.entries(gatilhos)) {
@@ -60,16 +56,11 @@
                 }
             }
 
-            // Mostra o resultado e adiciona na tabela de histórico
-            const resultadoEl = document.getElementById('resultado');
-            if (gatilhoEncontrado) {
-                resultadoEl.textContent = `O número ${numero} pertence ao ${gatilhoEncontrado}.`;
-                resultadoEl.className = 'alert alert-success';
-                adicionarAoHistorico(numero, gatilhoEncontrado);
-            } else {
-                resultadoEl.textContent = `O número ${numero} não pertence a nenhum gatilho.`;
-                resultadoEl.className = 'alert alert-warning';
-            }
+            // Adiciona o número e o gatilho à tabela de histórico
+            adicionarAoHistorico(numero, gatilhoEncontrado);
+
+            // Limpa o campo de entrada após a verificação
+            document.getElementById('numeroInput').value = '';
         }
 
         function adicionarAoHistorico(numero, gatilho) {
@@ -79,21 +70,22 @@
             linha.innerHTML = `
                 <td>${numero}</td>
                 <td>${gatilho}</td>
-                <td class="resultado-status">-</td>
-                <td><button class="btn btn-outline-secondary btn-sm" onclick="marcarResultado(this)">Marcar Red/Green</button></td>
+                <td><button class="btn btn-outline-secondary btn-sm" onclick="marcarResultado(this)">Marcar</button></td>
             `;
 
             tabela.appendChild(linha);
         }
 
         function marcarResultado(botao) {
-            const resultadoTd = botao.parentNode.previousElementSibling;
-            if (resultadoTd.textContent === '-' || resultadoTd.classList.contains('red')) {
-                resultadoTd.textContent = 'Green';
-                resultadoTd.className = 'resultado-status green';
+            // Alterna entre vermelho e verde ao clicar
+            if (botao.classList.contains('btn-green')) {
+                botao.classList.remove('btn-green');
+                botao.classList.add('btn-red');
+                botao.textContent = 'Red';
             } else {
-                resultadoTd.textContent = 'Red';
-                resultadoTd.className = 'resultado-status red';
+                botao.classList.remove('btn-red');
+                botao.classList.add('btn-green');
+                botao.textContent = 'Green';
             }
         }
     </script>
