@@ -45,31 +45,45 @@
         };
 
         function verificarGatilho() {
-            const numero = parseInt(document.getElementById('numeroInput').value);
-            let gatilhoEncontrado = 'Nenhum';
+            const numeroInput = document.getElementById('numeroInput');
+            const numero = parseInt(numeroInput.value);
 
-            // Verifica em qual gatilho o número se encontra
+            // Verifica se o campo está preenchido e contém um número válido
+            if (!numeroInput.value || isNaN(numero)) {
+                return; // Não faz nada se o campo estiver vazio ou com valor inválido
+            }
+
+            let gatilhoEncontrado = 'Nenhum';
+            let numerosGatilho = '';
+
+            // Verifica em qual gatilho o número se encontra e armazena os números do gatilho
             for (const [gatilho, numeros] of Object.entries(gatilhos)) {
                 if (numeros.includes(numero)) {
                     gatilhoEncontrado = gatilho;
+                    numerosGatilho = numeros.join(', ');
                     break;
                 }
             }
 
+            // Se nenhum gatilho foi encontrado, exibe "Nenhum"
+            if (gatilhoEncontrado === 'Nenhum') {
+                numerosGatilho = '-';
+            }
+
             // Adiciona o número e o gatilho à tabela de histórico
-            adicionarAoHistorico(numero, gatilhoEncontrado);
+            adicionarAoHistorico(numero, gatilhoEncontrado, numerosGatilho);
 
             // Limpa o campo de entrada após a verificação
-            document.getElementById('numeroInput').value = '';
+            numeroInput.value = '';
         }
 
-        function adicionarAoHistorico(numero, gatilho) {
+        function adicionarAoHistorico(numero, gatilho, numerosGatilho) {
             const tabela = document.getElementById('historico');
             const linha = document.createElement('tr');
 
             linha.innerHTML = `
                 <td>${numero}</td>
-                <td>${gatilho}</td>
+                <td>${gatilho} ${numerosGatilho ? `(${numerosGatilho})` : ''}</td>
                 <td><button class="btn btn-outline-secondary btn-sm" onclick="marcarResultado(this)">Marcar</button></td>
             `;
 
