@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificador de Gatilhos XIS</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .btn-green { background-color: green; color: white; }
@@ -18,6 +17,7 @@
         <div class="input-group mb-3">
             <input type="number" id="numeroInput" class="form-control" placeholder="Digite um número" required>
             <button class="btn btn-primary" onclick="verificarGatilho()">Verificar</button>
+            <button class="btn btn-danger ms-2" onclick="apagarTudo()">Apagar Tudo</button>
         </div>
 
         <h3 class="mt-4">Histórico de Resultados</h3>
@@ -33,9 +33,25 @@
         </table>
     </div>
 
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+
     <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_AUTH_DOMAIN",
+            projectId: "SEU_PROJECT_ID",
+            storageBucket: "SEU_STORAGE_BUCKET",
+            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+            appId: "SEU_APP_ID"
+        };
+
+        // Inicializando Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         const gatilhos = {
             XIS1: [16, 17, 18],
             XIS2: [24, 25, 26],
@@ -44,19 +60,15 @@
             XIS5: [33, 22, 11]
         };
 
-        function verificarGatilho() {
+        async function verificarGatilho() {
             const numeroInput = document.getElementById('numeroInput');
             const numero = parseInt(numeroInput.value);
 
-            // Verifica se o campo está preenchido e contém um número válido
-            if (!numeroInput.value || isNaN(numero)) {
-                return; // Não faz nada se o campo estiver vazio ou com valor inválido
-            }
+            if (!numeroInput.value || isNaN(numero)) return;
 
             let gatilhoEncontrado = 'Nenhum';
             let numerosGatilho = '';
 
-            // Verifica em qual gatilho o número se encontra e armazena os números do gatilho
             for (const [gatilho, numeros] of Object.entries(gatilhos)) {
                 if (numeros.includes(numero)) {
                     gatilhoEncontrado = gatilho;
@@ -65,16 +77,30 @@
                 }
             }
 
-            // Se nenhum gatilho foi encontrado, exibe "Nenhum"
             if (gatilhoEncontrado === 'Nenhum') {
                 numerosGatilho = '-';
             }
 
-            // Adiciona o número e o gatilho à tabela de histórico
+            await salvarNoFirestore(numero, gatilhoEncontrado, numerosGatilho);
             adicionarAoHistorico(numero, gatilhoEncontrado, numerosGatilho);
 
-            // Limpa o campo de entrada após a verificação
             numeroInput.value = '';
+        }
+
+        async function salvarNoFirestore(numero, gatilho, numerosGatilho) {
+            await db.collection("historico").add({
+                numero: numero,
+                gatilho: gatilho,
+                numerosGatilho: numerosGatilho
+            });
+        }
+
+        async function carregarHistorico() {
+            const querySnapshot = await db.collection("historico").get();
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                adicionarAoHistorico(data.numero, data.gatilho, data.numerosGatilho);
+            });
         }
 
         function adicionarAoHistorico(numero, gatilho, numerosGatilho) {
@@ -90,8 +116,16 @@
             tabela.appendChild(linha);
         }
 
+        async function apagarTudo() {
+            const querySnapshot = await db.collection("historico").get();
+            querySnapshot.forEach(async (doc) => {
+                await db.collection("historico").doc(doc.id).delete();
+            });
+
+            document.getElementById('historico').innerHTML = '';
+        }
+
         function marcarResultado(botao) {
-            // Alterna entre vermelho e verde ao clicar
             if (botao.classList.contains('btn-green')) {
                 botao.classList.remove('btn-green');
                 botao.classList.add('btn-red');
@@ -102,6 +136,8 @@
                 botao.textContent = 'Green';
             }
         }
+
+        window.onload = carregarHistorico;
     </script>
 </body>
 </html>
