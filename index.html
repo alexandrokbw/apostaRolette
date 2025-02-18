@@ -7,35 +7,54 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            text-align: center;
+        }
+        .navbar {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
+            justify-content: center;
+            background: #1f1f1f;
+            padding: 15px;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background: #007bff;
         }
         .titulo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             margin: 20px 0;
         }
         .container {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
             justify-content: center;
+            gap: 20px;
+            padding: 20px;
         }
         .card {
-            background: #fff;
+            background: #1f1f1f;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 15px;
             text-align: center;
             width: 250px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
         }
         .card img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
+            width: 100%;
             border-radius: 5px;
         }
         .card a {
@@ -50,14 +69,39 @@
         .card a:hover {
             background: #0056b3;
         }
+        .content-section {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="titulo">Melhores casas de aposta</div>
-    <div class="container" id="apostasContainer"></div>
+    <div class="navbar">
+        <a href="#" onclick="showSection('apostas')">Casas de Apostas</a>
+        <a href="#" onclick="showSection('estrategia')">Minha Estratégia</a>
+    </div>
+
+    <div id="apostas" class="content-section" style="display: block;">
+        <div class="titulo">Melhores casas de aposta</div>
+        <div class="container" id="apostasContainer"></div>
+    </div>
+
+    <div id="estrategia" class="content-section">
+        <div class="titulo">Como Minha Estratégia Funciona</div>
+        <p>Aqui você encontrará explicações detalhadas sobre minha estratégia, acompanhadas de prints e exemplos.</p>
+        <img src="exemplo1.jpg" alt="Exemplo de estratégia" width="80%">
+        <p>Explicação detalhada sobre como usar minha abordagem para melhorar os ganhos.</p>
+        <img src="exemplo2.jpg" alt="Outro exemplo" width="80%">
+    </div>
+
     <script>
-        const dados = {
+         const dados = {
             "casas_de_apostas": [
+            {
+                    "nome": "Bullsbet",
+                    "imagem": "https://i.pinimg.com/736x/59/69/a1/5969a1748350c5d53679d9718ad13ac5.jpg",
+                    "link": "https://bullsbet.bet.br?ref=95738ed72bc8",
+                    "bonus": "Giros gratis todos os dias"
+                },
                 {
                     "nome": "Play fortuna",
                     "imagem": "https://i.pinimg.com/736x/1f/b8/0c/1fb80c61d8780a3752720f11bf6a6732.jpg",
@@ -90,7 +134,7 @@
                 }
             ]
         };
-
+        
         const container = document.getElementById("apostasContainer");
         dados.casas_de_apostas.forEach(aposta => {
             const card = document.createElement("div");
@@ -103,17 +147,13 @@
             `;
             container.appendChild(card);
         });
-
-        // Adicionando o card para escolher outra casa de apostas
-        const cardOutro = document.createElement("div");
-        cardOutro.className = "card";
-        cardOutro.innerHTML = `
-            <img src="https://i.pinimg.com/736x/55/85/8d/55858d6becd90d6742682cb76077c8ef.jpg" alt="Outras Casas">
-            <h3>Escolha outra casa</h3>
-            <p>Clique abaixo para buscar mais opções.</p>
-            <a href="https://www.google.com.br" target="_blank">Pesquisar</a>
-        `;
-        container.appendChild(cardOutro);
+        
+        function showSection(section) {
+            document.querySelectorAll('.content-section').forEach(div => {
+                div.style.display = 'none';
+            });
+            document.getElementById(section).style.display = 'block';
+        }
     </script>
 </body>
 </html>
