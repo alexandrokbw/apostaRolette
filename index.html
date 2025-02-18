@@ -3,146 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificador de Gatilhos XIS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Casas de Apostas</title>
     <style>
-        .btn-green { background-color: green; color: white; }
-        .btn-red { background-color: red; color: white; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .titulo {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            width: 250px;
+        }
+        .card img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .card a:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <h2 class="mb-4 text-center">Verificador de Gatilhos XIS</h2>
-        
-        <div class="input-group mb-3">
-            <input type="number" id="numeroInput" class="form-control" placeholder="Digite um número" required>
-            <button class="btn btn-primary" onclick="verificarGatilho()">Verificar</button>
-            <button class="btn btn-danger ms-2" onclick="apagarTudo()">Apagar Tudo</button>
-        </div>
-
-        <h3 class="mt-4">Histórico de Resultados</h3>
-        <table class="table table-bordered table-striped mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>Número</th>
-                    <th>Gatilho</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody id="historico"></tbody>
-        </table>
-    </div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
-
+<body>
+    <div class="titulo">Melhores casas de aposta</div>
+    <div class="container" id="apostasContainer"></div>
     <script>
-        // Configuração do Firebase
-        // Configuração do Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyD0WsMGqC8alZlXjFTsQoaWOX7ihBzBi7Q",
-    authDomain: "verificadordegatilhosxis.firebaseapp.com",
-    projectId: "verificadordegatilhosxis",
-    storageBucket: "verificadordegatilhosxis.firebasestorage.app",
-    messagingSenderId: "981701234755",
-    appId: "1:981701234755:web:8ce9cd5422a2fd8a90c4f6"
-};
-
-// Inicializando Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-        // Inicializando Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        const gatilhos = {
-            XIS1: [16, 17, 18],
-            XIS2: [24, 25, 26],
-            XIS3: [30, 31, 32],
-            XIS4: [33, 34, 35],
-            XIS5: [33, 22, 11]
+        const dados = {
+            "casas_de_apostas": [
+                {
+                    "nome": "Play fortuna",
+                    "imagem": "https://i.pinimg.com/736x/1f/b8/0c/1fb80c61d8780a3752720f11bf6a6732.jpg",
+                    "link": "https://playfortuna.com/pt",
+                    "bonus": "Programa de pontos"
+                },
+                {
+                    "nome": "Betano",
+                    "imagem": "https://i.pinimg.com/736x/b5/b5/e5/b5b5e5f439234fea6e4f7188a998fa3c.jpg",
+                    "link": "https://www.betano.bet.br",
+                    "bonus": "Roda da sorte e Giros gratis todos os dias"
+                },
+                {
+                    "nome": "Slottica",
+                    "imagem": "https://i.pinimg.com/736x/ad/1e/07/ad1e0775290e50bb8d2f898ee0dae4d7.jpg",
+                    "link": "https://11172slottica.com/pt#sign-up",
+                    "bonus": "Slots 3x3 pagando sempre"
+                },
+                {
+                    "nome": "Stake",
+                    "imagem": "https://i.pinimg.com/1200x/bf/d1/16/bfd1161f4106c4083dd7ac7249167719.jpg",
+                    "link": "https://stake.bet.br/bem-vindo",
+                    "bonus": "Saque rapido e roletas exclusvas Stake"
+                },
+                {
+                    "nome": "Vbet",
+                    "imagem": "https://i.pinimg.com/736x/1a/bd/73/1abd735dfe3c61d4a1709bd6ce1fe0d9.jpg",
+                    "link": "https://www.vbet.bet.br",
+                    "bonus": "Roda da sorte saque rapido"
+                }
+            ]
         };
 
-        async function verificarGatilho() {
-            const numeroInput = document.getElementById('numeroInput');
-            const numero = parseInt(numeroInput.value);
-
-            if (!numeroInput.value || isNaN(numero)) return;
-
-            let gatilhoEncontrado = 'Nenhum';
-            let numerosGatilho = '';
-
-            for (const [gatilho, numeros] of Object.entries(gatilhos)) {
-                if (numeros.includes(numero)) {
-                    gatilhoEncontrado = gatilho;
-                    numerosGatilho = numeros.join(', ');
-                    break;
-                }
-            }
-
-            if (gatilhoEncontrado === 'Nenhum') {
-                numerosGatilho = '-';
-            }
-
-            await salvarNoFirestore(numero, gatilhoEncontrado, numerosGatilho);
-            adicionarAoHistorico(numero, gatilhoEncontrado, numerosGatilho);
-
-            numeroInput.value = '';
-        }
-
-        async function salvarNoFirestore(numero, gatilho, numerosGatilho) {
-            await db.collection("historico").add({
-                numero: numero,
-                gatilho: gatilho,
-                numerosGatilho: numerosGatilho
-            });
-        }
-
-        async function carregarHistorico() {
-            const querySnapshot = await db.collection("historico").get();
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                adicionarAoHistorico(data.numero, data.gatilho, data.numerosGatilho);
-            });
-        }
-
-        function adicionarAoHistorico(numero, gatilho, numerosGatilho) {
-            const tabela = document.getElementById('historico');
-            const linha = document.createElement('tr');
-
-            linha.innerHTML = `
-                <td>${numero}</td>
-                <td>${gatilho} ${numerosGatilho ? `(${numerosGatilho})` : ''}</td>
-                <td><button class="btn btn-outline-secondary btn-sm" onclick="marcarResultado(this)">Marcar</button></td>
+        const container = document.getElementById("apostasContainer");
+        dados.casas_de_apostas.forEach(aposta => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+                <img src="${aposta.imagem}" alt="${aposta.nome}">
+                <h3>${aposta.nome}</h3>
+                <p>${aposta.bonus}</p>
+                <a href="${aposta.link}" target="_blank">Visitar</a>
             `;
+            container.appendChild(card);
+        });
 
-            tabela.appendChild(linha);
-        }
-
-        async function apagarTudo() {
-            const querySnapshot = await db.collection("historico").get();
-            querySnapshot.forEach(async (doc) => {
-                await db.collection("historico").doc(doc.id).delete();
-            });
-
-            document.getElementById('historico').innerHTML = '';
-        }
-
-        function marcarResultado(botao) {
-            if (botao.classList.contains('btn-green')) {
-                botao.classList.remove('btn-green');
-                botao.classList.add('btn-red');
-                botao.textContent = 'Red';
-            } else {
-                botao.classList.remove('btn-red');
-                botao.classList.add('btn-green');
-                botao.textContent = 'Green';
-            }
-        }
-
-        window.onload = carregarHistorico;
+        // Adicionando o card para escolher outra casa de apostas
+        const cardOutro = document.createElement("div");
+        cardOutro.className = "card";
+        cardOutro.innerHTML = `
+            <img src="https://i.pinimg.com/736x/55/85/8d/55858d6becd90d6742682cb76077c8ef.jpg" alt="Outras Casas">
+            <h3>Escolha outra casa</h3>
+            <p>Clique abaixo para buscar mais opções.</p>
+            <a href="https://www.google.com.br" target="_blank">Pesquisar</a>
+        `;
+        container.appendChild(cardOutro);
     </script>
 </body>
 </html>
