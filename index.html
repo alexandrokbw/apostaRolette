@@ -94,66 +94,73 @@
     </div>
 
     <script>
-         const dados = {
-            "casas_de_apostas": [
+    const dados = {
+        "casas_de_apostas": [
             {
-                    "nome": "Bullsbet",
-                    "imagem": "https://i.pinimg.com/736x/59/69/a1/5969a1748350c5d53679d9718ad13ac5.jpg",
-                    "link": "https://bullsbet.bet.br?ref=95738ed72bc8",
-                    "bonus": "Giros gratis todos os dias"
-                },
-                {
-                    "nome": "Play fortuna",
-                    "imagem": "https://i.pinimg.com/736x/1f/b8/0c/1fb80c61d8780a3752720f11bf6a6732.jpg",
-                    "link": "https://playfortuna.com/pt",
-                    "bonus": "Programa de pontos"
-                },
-                {
-                    "nome": "Betano",
-                    "imagem": "https://i.pinimg.com/736x/b5/b5/e5/b5b5e5f439234fea6e4f7188a998fa3c.jpg",
-                    "link": "https://www.betano.bet.br",
-                    "bonus": "Roda da sorte e Giros gratis todos os dias"
-                },
-                {
-                    "nome": "Slottica",
-                    "imagem": "https://i.pinimg.com/736x/ad/1e/07/ad1e0775290e50bb8d2f898ee0dae4d7.jpg",
-                    "link": "https://11172slottica.com/pt#sign-up",
-                    "bonus": "Slots 3x3 pagando sempre"
-                },
-                {
-                    "nome": "Stake",
-                    "imagem": "https://i.pinimg.com/1200x/bf/d1/16/bfd1161f4106c4083dd7ac7249167719.jpg",
-                    "link": "https://stake.bet.br/bem-vindo",
-                    "bonus": "Saque rapido e roletas exclusvas Stake"
-                },
-                {
-                    "nome": "Vbet",
-                    "imagem": "https://i.pinimg.com/736x/1a/bd/73/1abd735dfe3c61d4a1709bd6ce1fe0d9.jpg",
-                    "link": "https://www.vbet.bet.br",
-                    "bonus": "Roda da sorte saque rapido"
-                }
-            ]
-        };
-        
-        const container = document.getElementById("apostasContainer");
-        dados.casas_de_apostas.forEach(aposta => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-                <img src="${aposta.imagem}" alt="${aposta.nome}">
-                <h3>${aposta.nome}</h3>
-                <p>${aposta.bonus}</p>
-                <a href="${aposta.link}" target="_blank">Visitar</a>
-            `;
-            container.appendChild(card);
+                "nome": "Bullsbet",
+                "imagem": "https://i.pinimg.com/736x/59/69/a1/5969a1748350c5d53679d9718ad13ac5.jpg",
+                "link": "https://bullsbet.bet.br?ref=95738ed72bc8",
+                "bonus": "Giros grátis todos os dias"
+            },
+            {
+                "nome": "Play Fortuna",
+                "imagem": "https://i.pinimg.com/736x/1f/b8/0c/1fb80c61d8780a3752720f11bf6a6732.jpg",
+                "link": "https://playfortuna.com/pt",
+                "bonus": "Programa de pontos"
+            },
+            {
+                "nome": "Betano",
+                "imagem": "https://i.pinimg.com/736x/b5/b5/e5/b5b5e5f439234fea6e4f7188a998fa3c.jpg",
+                "link": "https://www.betano.bet.br",
+                "bonus": "Roda da sorte e giros grátis todos os dias"
+            },
+            {
+                "nome": "Slottica",
+                "imagem": "https://i.pinimg.com/736x/ad/1e/07/ad1e0775290e50bb8d2f898ee0dae4d7.jpg",
+                "link": "https://11172slottica.com/pt#sign-up",
+                "bonus": "Slots 3x3 pagando sempre"
+            },
+            {
+                "nome": "Stake",
+                "imagem": "https://i.pinimg.com/1200x/bf/d1/16/bfd1161f4106c4083dd7ac7249167719.jpg",
+                "link": "https://stake.bet.br/bem-vindo",
+                "bonus": "Saque rápido e roletas exclusivas Stake"
+            },
+            {
+                "nome": "Vbet",
+                "imagem": "https://i.pinimg.com/736x/1a/bd/73/1abd735dfe3c61d4a1709bd6ce1fe0d9.jpg",
+                "link": "https://www.vbet.bet.br",
+                "bonus": "Roda da sorte saque rápido"
+            },
+            {
+                "nome": "Outras opções",
+                "imagem": "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+                "link": "https://www.google.com/search?q=casas+de+apostas",
+                "bonus": "Pesquise por mais casas de apostas no Google."
+            }
+        ]
+    };
+
+    const container = document.getElementById("apostasContainer");
+    dados.casas_de_apostas.forEach(aposta => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <img src="${aposta.imagem}" alt="${aposta.nome}" style="width: 100%; border-radius: 5px;">
+            <h3>${aposta.nome}</h3>
+            <p>${aposta.bonus}</p>
+            <a href="${aposta.link}" target="_blank">Visitar</a>
+        `;
+        container.appendChild(card);
+    });
+
+    function showSection(section) {
+        document.querySelectorAll('.content-section').forEach(div => {
+            div.style.display = 'none';
         });
-        
-        function showSection(section) {
-            document.querySelectorAll('.content-section').forEach(div => {
-                div.style.display = 'none';
-            });
-            document.getElementById(section).style.display = 'block';
-        }
-    </script>
+        document.getElementById(section).style.display = 'block';
+    }
+</script>
+
 </body>
 </html>
