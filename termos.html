@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos e Condições - Casas de Apostas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --primary-hover: #2563eb;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --accent: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), #2f49c5);
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background: var(--card-bg);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar a i {
+            margin-right: 8px;
+        }
+        
+        .navbar a:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .navbar a.active {
+            background: var(--primary);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .titulo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .titulo:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .termos-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .termos-card h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.8rem;
+        }
+        
+        .termos-card p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .termos-card ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .termos-card li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer {
+            background: var(--card-bg);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .navbar a {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Casas de Apostas Premium</h1>
+    </header>
+
+    <nav class="navbar">
+        <a href="index.html">
+            <i class="fas fa-dice"></i> Casas de Apostas
+        </a>
+        <a href="index.html#estrategia">
+            <i class="fas fa-chart-line"></i> Estratégia
+        </a>
+        <a href="termos.html" class="active">
+            <i class="fas fa-file-contract"></i> Termos
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="titulo">Termos e Condições</div>
+        
+        <div class="termos-card">
+            <h2>1. Informações Gerais</h2>
+            <p>Este site tem como objetivo fornecer informações sobre casas de apostas online. Nosso conteúdo é destinado a maiores de 18 anos e visa apenas informar sobre plataformas disponíveis no mercado.</p>
+            
+            <p>Ao utilizar este site, você concorda com estes termos e condições. Se você não concordar com qualquer parte destes termos, por favor, não utilize nosso site.</p>
+        </div>
+        
+        <div class="termos-card">
+            <h2>2. Responsabilidade</h2>
+            <p>Este site não é operador de jogos de azar e não oferece serviços de apostas. Somos apenas um portal informativo que direciona os usuários para plataformas de apostas legalizadas.</p>
+            
+            <p>Não nos responsabilizamos por:</p>
+            <ul>
+                <li>Perdas financeiras resultantes de apostas realizadas em sites recomendados</li>
+                <li>Alterações nas políticas, promoções ou bônus das casas de apostas listadas</li>
+                <li>Problemas técnicos ou operacionais nos sites de terceiros</li>
+                <li>Questões legais relacionadas ao uso de sites de apostas em jurisdições onde isso possa ser restrito</li>
+            </ul>
+        </div>
+        
+        <div class="termos-card">
+            <h2>3. Conteúdo e Links</h2>
+            <p>As informações contidas neste site são fornecidas "como estão", sem garantias de qualquer tipo. Fazemos todos os esforços para manter as informações atualizadas, mas não garantimos a precisão, integridade ou atualidade do conteúdo.</p>
+            
+            <p>Os links para sites de terceiros são fornecidos apenas para conveniência. Não endossamos ou assumimos responsabilidade pelo conteúdo de sites de terceiros. O acesso a qualquer outro site vinculado a este é por sua própria conta e risco.</p>
+        </div>
+        
+        <div class="termos-card">
+            <h2>4. Jogo Responsável</h2>
+            <p>Incentivamos fortemente o jogo responsável. Apostar deve ser uma forma de entretenimento, não uma maneira de ganhar dinheiro ou resolver problemas financeiros.</p>
+            
+            <p>Recomendações para jogo responsável:</p>
+            <ul>
+                <li>Estabeleça limites de tempo e dinheiro antes de começar a jogar</li>
+                <li>Nunca aposte com dinheiro que você não pode perder</li>
+                <li>Não persiga perdas ou aposte quando estiver emocionalmente abalado</li>
+                <li>Equilibre o tempo gasto em apostas com outras atividades</li>
+                <li>Se você acha que tem um problema com jogos de azar, procure ajuda profissional imediatamente</li>
+            </ul>
+        </div>
+        
+        <div class="termos-card">
+            <h2>5. Direitos Autorais</h2>
+            <p>Todo o conteúdo deste site, incluindo textos, gráficos, logos, ícones e imagens, é propriedade exclusiva deste site ou de seus fornecedores de conteúdo e está protegido por leis de direitos autorais nacionais e internacionais.</p>
+            
+            <p>Qualquer uso não autorizado do conteúdo pode violar leis de direitos autorais, marcas registradas e outras leis aplicáveis.</p>
+        </div>
+        
+        <a href="index.html" class="btn">
+            <i class="fas fa-arrow-left"></i> Voltar para a página inicial
+        </a>
+    </div>
+
+    <footer class="footer">
+        <p>© 2025 - Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
