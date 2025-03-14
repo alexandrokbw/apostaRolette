@@ -4,101 +4,479 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casas de Apostas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #fff;
-            margin: 0;
-            text-align: center;
+        :root {
+            --primary: #3a86ff;
+            --primary-hover: #2563eb;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --accent: #10b981;
         }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), #2f49c5);
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
         .navbar {
             display: flex;
             justify-content: center;
-            background: #1f1f1f;
-            padding: 15px;
+            background: var(--card-bg);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
+        
         .navbar a {
-            color: #fff;
+            color: var(--text-light);
             text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-        .navbar a:hover {
-            background: #007bff;
-        }
-        .titulo {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .container {
+            margin: 0 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
+            align-items: center;
         }
-        .card {
-            background: #1f1f1f;
-            border-radius: 10px;
-            padding: 15px;
+        
+        .navbar a i {
+            margin-right: 8px;
+        }
+        
+        .navbar a:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .navbar a.active {
+            background: var(--primary);
+        }
+        
+        .titulo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 2rem 0;
             text-align: center;
-            width: 250px;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s;
+            position: relative;
+            padding-bottom: 1rem;
         }
+        
+        .titulo:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
         .card:hover {
-            transform: scale(1.05);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
         }
+        
+        .card-img-container {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        
         .card img {
             width: 100%;
-            border-radius: 5px;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
-        .card a {
+        
+        .card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+        
+        .card p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            flex-grow: 1;
+        }
+        
+        .btn {
             display: inline-block;
-            margin-top: 10px;
-            padding: 10px;
-            background: #007bff;
-            color: #fff;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
-        .card a:hover {
-            background: #0056b3;
+        
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
+        
+        .estrategia-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .estrategia-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .estrategia-card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .estrategia-card p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .estrategia-card img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            margin: 1.5rem 0;
+        }
+        
+        .feature-list {
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .feature-text {
+            flex-grow: 1;
+        }
+        
+        .feature-text h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
         .content-section {
             display: none;
         }
-        .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .footer {
+            background: var(--card-bg);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .navbar a {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="#" onclick="showSection('apostas')">Casas de Apostas</a>
-        <a href="#" onclick="showSection('estrategia')">Minha Estratégia</a>
+    <header class="header">
+        <h1>Casas de Apostas Premium</h1>
+    </header>
+
+    <nav class="navbar">
+        <a href="#" id="apostas-btn" class="active" onclick="showSection('apostas')">
+            <i class="fas fa-dice"></i> Casas de Apostas
+        </a>
+        <a href="#" id="estrategia-btn" onclick="showSection('estrategia')">
+            <i class="fas fa-chart-line"></i> Minha Estratégia
+        </a>
+        <a href="#" id="download-btn" onclick="showSection('download')">
+            <i class="fas fa-download"></i> Downloads
+        </a>
+        <a href="termos.html">
+            <i class="fas fa-file-contract"></i> Termos
+        </a>
+    </nav>
+
+    <div class="container">
+        <div id="apostas" class="content-section active">
+            <div class="titulo">As Melhores Casas de Apostas</div>
+            <div class="cards-container" id="apostasContainer"></div>
+        </div>
+
+        <div id="estrategia" class="content-section">
+            <div class="titulo">Como Minha Estratégia Funciona</div>
+            
+            <div class="estrategia-section">
+                <div class="estrategia-card">
+                    <h2>Maximizando Seus Ganhos</h2>
+                    <p>Desenvolvi uma estratégia exclusiva baseada em anos de experiência e análise estatística que pode ajudar você a maximizar seus ganhos e minimizar suas perdas.</p>
+                    
+                    <img src="exemplo1.jpg" alt="Exemplo de estratégia" onerror="this.src='/api/placeholder/800/400'; this.alt='Imagem de exemplo da estratégia'">
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Análise de Probabilidades</h3>
+                                <p>Utilizo métodos avançados de cálculo de probabilidades para identificar as melhores oportunidades.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Gestão de Banca</h3>
+                                <p>Aprenda como gerenciar seu capital de forma inteligente para maximizar seus ganhos a longo prazo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Timing Perfeito</h3>
+                                <p>Descubra os melhores momentos para realizar suas apostas e maximizar suas chances de ganhar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="estrategia-card">
+                    <h2>Resultados Comprovados</h2>
+                    <p>Veja alguns resultados obtidos por pessoas que aplicaram minha estratégia:</p>
+                    
+                    <img src="exemplo2.jpg" alt="Exemplo de resultados" onerror="this.src='/api/placeholder/800/400'; this.alt='Imagem de exemplo de resultados'">
+                    
+                    <p>A estratégia tem sido testada e aprimorada constantemente, proporcionando resultados consistentes para quem a segue corretamente.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="download" class="content-section">
+            <div class="titulo">Downloads Disponíveis</div>
+            
+            <div class="estrategia-section">
+                <div class="estrategia-card">
+                    <h2>Planilha de Análise para Apostas</h2>
+                    <p>Baixe nossa planilha exclusiva que ajuda você a calcular probabilidades e gerenciar sua banca de forma eficiente.</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-excel"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Versão Excel</h3>
+                                <p>Planilha completa com macros e fórmulas avançadas para análise de apostas.</p>
+                                <a href="#" class="btn download-btn" data-action="download" data-version="1.0" data-platform="excel">
+                                    <i class="fas fa-download"></i> Baixar Excel (v1.0)
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-csv"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Versão Google Sheets</h3>
+                                <p>Versão compatível com Google Sheets para uso online e compartilhamento fácil.</p>
+                                <a href="#" class="btn download-btn" data-action="download" data-version="1.0" data-platform="sheets">
+                                    <i class="fas fa-download"></i> Baixar Sheets (v1.0)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="estrategia-card">
+                    <h2>Aplicativo de Previsão</h2>
+                    <p>Nosso aplicativo proprietário que implementa a estratégia de previsão para diferentes jogos.</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fab fa-android"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Versão Android</h3>
+                                <p>Aplicativo otimizado para dispositivos Android com interface amigável.</p>
+                                <a href="#" class="btn download-btn" data-action="download" data-version="2.1" data-platform="android">
+                                    <i class="fas fa-download"></i> Baixar para Android (v2.1)
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fab fa-apple"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Versão iOS</h3>
+                                <p>Aplicativo para iPhone e iPad com recursos exclusivos da plataforma.</p>
+                                <a href="#" class="btn download-btn" data-action="download" data-version="2.0" data-platform="ios">
+                                    <i class="fas fa-download"></i> Baixar para iOS (v2.0)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <h3>Notas de Versão</h3>
+                    <p>Versão 2.1: Correção de bugs e melhorias na precisão de previsão</p>
+                    <p>Versão 2.0: Nova interface e suporte a mais jogos</p>
+                    
+                    <button class="btn" onclick="verificarAtualizacoes()">
+                        <i class="fas fa-sync"></i> Verificar Atualizações
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="apostas" class="content-section" style="display: block;">
-        <div class="titulo">Melhores casas de aposta</div>
-        <div class="container" id="apostasContainer"></div>
-    </div>
-
-    <div id="estrategia" class="content-section">
-        <div class="titulo">Como Minha Estratégia Funciona</div>
-        <p>Aqui você encontrará explicações detalhadas sobre minha estratégia, acompanhadas de prints e exemplos.</p>
-        <img src="exemplo1.jpg" alt="Exemplo de estratégia" width="80%">
-        <p>Explicação detalhada sobre como usar minha abordagem para melhorar os ganhos.</p>
-        <img src="exemplo2.jpg" alt="Outro exemplo" width="80%">
-    </div>
+    <footer class="footer">
+        <p>© 2025 - Todos os direitos reservados.</p>
+    </footer>
 
     <script>
     const dados = {
@@ -107,49 +485,57 @@
                 "nome": "Bullsbet",
                 "imagem": "https://i.pinimg.com/736x/59/69/a1/5969a1748350c5d53679d9718ad13ac5.jpg",
                 "link": "https://bullsbet.bet.br?ref=95738ed72bc8",
-                "bonus": "Giros grátis todos os dias"
+                "bonus": "Giros grátis todos os dias",
+                "destaque": true
             },
             {
                 "nome": "Play Fortuna",
                 "imagem": "https://i.pinimg.com/736x/1f/b8/0c/1fb80c61d8780a3752720f11bf6a6732.jpg",
                 "link": "https://playfortuna.com/pt",
-                "bonus": "Programa de pontos"
+                "bonus": "Programa de pontos exclusivo e bônus de boas-vindas",
+                "destaque": false
             },
             {
                 "nome": "Betano",
                 "imagem": "https://i.pinimg.com/736x/b5/b5/e5/b5b5e5f439234fea6e4f7188a998fa3c.jpg",
                 "link": "https://www.betano.bet.br",
-                "bonus": "Roda da sorte e giros grátis todos os dias"
+                "bonus": "Roda da sorte e giros grátis todos os dias",
+                "destaque": true
             },
             {
                 "nome": "Slottica",
                 "imagem": "https://i.pinimg.com/736x/ad/1e/07/ad1e0775290e50bb8d2f898ee0dae4d7.jpg",
                 "link": "https://11172slottica.com/pt#sign-up",
-                "bonus": "Slots 3x3 pagando sempre"
+                "bonus": "Slots 3x3 pagando sempre com altas taxas de retorno",
+                "destaque": false
             },
             {
                 "nome": "Stake",
                 "imagem": "https://i.pinimg.com/1200x/bf/d1/16/bfd1161f4106c4083dd7ac7249167719.jpg",
                 "link": "https://stake.bet.br/bem-vindo",
-                "bonus": "Saque rápido e roletas exclusivas Stake"
+                "bonus": "Saque rápido e roletas exclusivas Stake com bônus semanais",
+                "destaque": true
             },
             {
                 "nome": "Vbet",
                 "imagem": "https://i.pinimg.com/736x/1a/bd/73/1abd735dfe3c61d4a1709bd6ce1fe0d9.jpg",
                 "link": "https://www.vbet.bet.br",
-                "bonus": "Roda da sorte saque rápido"
+                "bonus": "Roda da sorte diária e processo de saque super rápido",
+                "destaque": false
             },
             {
                 "nome": "Superbet",
                 "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmJAAwFSbErQe6C98Hbr9hpFM6uTJ63OyvH3XYF-VFUoVSBZ2rJkR9aUM&s=10",
                 "link": "https://superbet.bet.br/perfil/minha-conta",
-                "bonus": "Rodas grátis todos os dias "
+                "bonus": "Rodadas grátis todos os dias e bônus exclusivos para membros",
+                "destaque": false
             }, 
             {
-                "nome": "Pesquisar",
-                "imagem": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search",
+                "nome": "Pesquisar Mais",
+                "imagem": "/api/placeholder/400/320",
                 "link": "https://www.google.com.br",
-                "bonus": "Pesquise por outras casas de apostas "
+                "bonus": "Pesquise por outras casas de apostas e encontre mais opções para você",
+                "destaque": false
             }
         ]
     };
@@ -158,21 +544,54 @@
     dados.casas_de_apostas.forEach(aposta => {
         const card = document.createElement("div");
         card.className = "card";
+        
+        let badgeHtml = '';
+        if (aposta.destaque) {
+            badgeHtml = '<span class="badge">Recomendado</span>';
+        }
+        
         card.innerHTML = `
-            <img src="${aposta.imagem}" alt="${aposta.nome}" style="width: 100%; border-radius: 5px;">
-            <h3>${aposta.nome}</h3>
-            <p>${aposta.bonus}</p>
-            <a href="${aposta.link}" target="_blank">Visitar</a>
+            <div class="card-img-container">
+                <img src="${aposta.imagem}" alt="${aposta.nome}" onerror="this.src='/api/placeholder/400/320'; this.alt='${aposta.nome}'">
+            </div>
+            <div class="card-body">
+                <h3>${aposta.nome} ${badgeHtml}</h3>
+                <p>${aposta.bonus}</p>
+                <a href="${aposta.link}" class="btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Visitar
+                </a>
+            </div>
         `;
         container.appendChild(card);
     });
 
     function showSection(section) {
-        document.querySelectorAll('.content-section').forEach(div => {
-            div.style.display = 'none';
+        // Atualizar navegação
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.classList.remove('active');
         });
-        document.getElementById(section).style.display = 'block';
+        document.getElementById(section + '-btn').classList.add('active');
+        
+        // Mudar seção
+        document.querySelectorAll('.content-section').forEach(div => {
+            div.classList.remove('active');
+        });
+        document.getElementById(section).classList.add('active');
     }
+    
+    // Carregar script.js para funcionalidade de download
+    document.addEventListener('DOMContentLoaded', function() {
+        // Adicionar ouvintes de evento para os botões de download
+        const downloadBtns = document.querySelectorAll('.download-btn');
+        downloadBtns.forEach(btn => {
+            if (btn.dataset.action === 'download') {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    iniciarDownload(btn.dataset.version, btn.dataset.platform);
+                });
+            }
+        });
+    });
 </script>
 
 </body>
