@@ -43,28 +43,46 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
+        /* Navbar aprimorada para mobile */
         .navbar {
-            display: flex;
-            justify-content: center;
             background: var(--card-bg);
-            padding: 1rem;
+            padding: 0.5rem;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+        
         .navbar a {
             color: var(--text-light);
             text-decoration: none;
-            margin: 0 1rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            padding: 0.7rem 1.5rem;
+            padding: 0.7rem 1rem;
             border-radius: 8px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
         }
         
         .navbar a i {
@@ -78,6 +96,18 @@
         
         .navbar a.active {
             background: var(--primary);
+        }
+        
+        /* Menu hamburguer para celular */
+        .menu-toggle {
+            display: none;
+            background: var(--primary);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
         }
         
         .titulo {
@@ -294,19 +324,35 @@
             color: var(--text-secondary);
         }
         
+        /* Responsividade melhorada */
         @media (max-width: 768px) {
             .cards-container {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
             
-            .navbar {
+            .menu-toggle {
+                display: block;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .navbar-menu {
+                display: none;
                 flex-direction: column;
-                gap: 1rem;
+                width: 100%;
+            }
+            
+            .navbar-menu.show {
+                display: flex;
             }
             
             .navbar a {
                 width: 100%;
-                justify-content: center;
+                margin: 0.2rem 0;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -317,18 +363,29 @@
     </header>
 
     <nav class="navbar">
-        <a href="#" id="apostas-btn" class="active" onclick="showSection('apostas')">
-            <i class="fas fa-dice"></i> Casas de Apostas
-        </a>
-        <a href="#" id="estrategia-btn" onclick="showSection('estrategia')">
-            <i class="fas fa-chart-line"></i> Minha Estratégia
-        </a>
-        <a href="#" id="download-btn" onclick="showSection('download')">
-            <i class="fas fa-download"></i> Downloads
-        </a>
-        <a href="termos.html">
-            <i class="fas fa-file-contract"></i> Termos
-        </a>
+        <div class="navbar-container">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i> Menu
+            </button>
+            <div class="navbar-menu" id="navbarMenu">
+                <a href="#" id="apostas-btn" class="active" onclick="showSection('apostas')">
+                    <i class="fas fa-dice"></i> Casas de Apostas
+                </a>
+                <a href="#" id="estrategia-btn" onclick="showSection('estrategia')">
+                    <i class="fas fa-chart-line"></i> Minha Estratégia
+                </a>
+                <a href="#" id="download-btn" onclick="showSection('download')">
+                    <i class="fas fa-download"></i> Downloads
+                </a>
+                <a href="#" id="memorizador-btn" onclick="showSection('memorizador')">
+                    <i class="fas fa-brain"></i> Memorizador
+                </a>
+               
+                <a href="termos.html">
+                    <i class="fas fa-file-contract"></i> Termos
+                </a>
+            </div>
+        </div>
     </nav>
 
     <div class="container">
@@ -472,6 +529,47 @@
                 </div>
             </div>
         </div>
+        
+        <div id="memorizador" class="content-section">
+            <div class="titulo">Memorizador de Vizinho</div>
+            
+            <div class="estrategia-section">
+                <div class="estrategia-card">
+                    <h2>Ferramenta de Memorização para Roleta</h2>
+                    <p>O Memorizador de Vizinho é uma ferramenta avançada para ajudar você a memorizar sequências e padrões na roleta europeia.</p>
+                    
+                    <img src="memorizador.jpg" alt="Memorizador de Vizinho" onerror="this.src='/api/placeholder/800/400'; this.alt='Imagem do Memorizador de Vizinho'">
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Técnicas Avançadas</h3>
+                                <p>Aprenda técnicas avançadas de memorização para identificar padrões na roleta.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-dice"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Mapa de Vizinhos</h3>
+                                <p>Visualize o mapa completo de vizinhos na roleta europeia para apostas mais precisas.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <a href="MemorizadorDeVizinho.html" class="btn">
+                        <i class="fas fa-external-link-alt"></i> Abrir Memorizador
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="footer">
@@ -479,6 +577,7 @@
     </footer>
 
     <script>
+    // Dados das casas de apostas
     const dados = {
         "casas_de_apostas": [
             {
@@ -540,6 +639,7 @@
         ]
     };
 
+    // Carregar casas de apostas
     const container = document.getElementById("apostasContainer");
     dados.casas_de_apostas.forEach(aposta => {
         const card = document.createElement("div");
@@ -565,6 +665,7 @@
         container.appendChild(card);
     });
 
+    // Função para exibir seções
     function showSection(section) {
         // Atualizar navegação
         document.querySelectorAll('.navbar a').forEach(link => {
@@ -577,9 +678,19 @@
             div.classList.remove('active');
         });
         document.getElementById(section).classList.add('active');
+        
+        // Se for o item Memorizador e estiver em mobile, colapsar o menu
+        if (window.innerWidth <= 768) {
+            document.getElementById('navbarMenu').classList.remove('show');
+        }
     }
     
-    // Carregar script.js para funcionalidade de download
+    // Toggle menu para mobile
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('navbarMenu').classList.toggle('show');
+    });
+    
+    // Carregar funcionalidade de download
     document.addEventListener('DOMContentLoaded', function() {
         // Adicionar ouvintes de evento para os botões de download
         const downloadBtns = document.querySelectorAll('.download-btn');
@@ -592,6 +703,25 @@
             }
         });
     });
+
+    // Função para verificar tamanho da tela e ajustar menu
+    function checkScreenSize() {
+        if (window.innerWidth > 768) {
+            document.getElementById('navbarMenu').classList.add('show');
+        } else {
+            document.getElementById('navbarMenu').classList.remove('show');
+        }
+    }
+
+    // Verificar tamanho da tela ao carregar e redimensionar
+    window.addEventListener('load', checkScreenSize);
+    window.addEventListener('resize', checkScreenSize);
+    
+    // Função para verificar atualizações
+    function verificarAtualizacoes() {
+        alert('Verificando atualizações disponíveis...');
+        // Aqui você pode implementar a lógica real de verificação
+    }
 </script>
 
 </body>
