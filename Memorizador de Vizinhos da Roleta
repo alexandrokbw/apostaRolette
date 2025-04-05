@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorizador de Vizinhos da Roleta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .flashcard {
+            perspective: 1000px;
+            height: 300px;
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .card-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            background-color: #e74c3c;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+            box-sizing: border-box;
+            font-size: 24px;
+            text-align: center;
+        }
+        .options {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+        .option {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #2980b9;
+        }
+        .option.correct {
+            background-color: #2ecc71;
+        }
+        .option.incorrect {
+            background-color: #e74c3c;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .progress {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            height: 20px;
+            position: relative;
+        }
+        .progress-bar {
+            background-color: #3498db;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+        .score {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .feedback {
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Memorizador de Vizinhos da Roleta</h1>
+    <div class="container">
+        <div class="flashcard">
+            <div class="card-content">
+                <div class="question" id="question">
+                    Carregando...
+                </div>
+            </div>
+        </div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="controls">
+            <button class="btn" id="prev">Anterior</button>
+            <button class="btn" id="next">Próximo</button>
+            <button class="btn" id="shuffle">Embaralhar</button>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div class="score" id="score">Acertos: 0 / 0</div>
+    </div>
+
+    <script>
+        // Dados dos vizinhos da roleta
+        const originalData = [
+            { number: 5, neighbors: "10, 5, 24" },
+            { number: 24, neighbors: "5, 24, 16" },
+            { number: 16, neighbors: "24, 16, 33" },
+            { number: 33, neighbors: "16, 33, 1" },
+            { number: 1, neighbors: "33, 1, 20" },
+            { number: 20, neighbors: "1, 20, 14" },
+            { number: 14, neighbors: "20, 14, 31" },
+            { number: 31, neighbors: "14, 31, 9" },
+            { number: 9, neighbors: "31, 9, 22" },
+            { number: 22, neighbors: "9, 22, 18" },
+            { number: 18, neighbors: "22, 18, 29" },
+            { number: 29, neighbors: "18, 29, 7" },
+            { number: 7, neighbors: "29, 7, 28" },
+            { number: 28, neighbors: "7, 28, 12" },
+            { number: 12, neighbors: "28, 12, 35" },
+            { number: 35, neighbors: "12, 35, 3" },
+            { number: 3, neighbors: "35, 3, 26" },
+            { number: 26, neighbors: "3, 26, 0" },
+            { number: 0, neighbors: "26, 0, 32" },
+            { number: 32, neighbors: "0, 32, 15" },
+            { number: 15, neighbors: "32, 15, 19" },
+            { number: 19, neighbors: "15, 19, 4" },
+            { number: 4, neighbors: "19, 4, 21" },
+            { number: 21, neighbors: "4, 21, 2" },
+            { number: 2, neighbors: "21, 2, 25" },
+            { number: 25, neighbors: "2, 25, 17" },
+            { number: 17, neighbors: "25, 17, 34" },
+            { number: 34, neighbors: "17, 34, 6" },
+            { number: 6, neighbors: "34, 6, 27" },
+            { number: 27, neighbors: "6, 27, 13" },
+            { number: 13, neighbors: "27, 13, 36" },
+            { number: 36, neighbors: "13, 36, 11" },
+            { number: 11, neighbors: "36, 11, 30" },
+            { number: 30, neighbors: "11, 30, 8" },
+            { number: 8, neighbors: "30, 8, 23" },
+            { number: 23, neighbors: "8, 23, 10" },
+            { number: 10, neighbors: "23, 10, 5" }
+        ];
+
+        // Todos os números da roleta para gerar respostas falsas
+        const allNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36];
+
+        let data = [...originalData];
+        let currentIndex = 0;
+        let correctAnswers = 0;
+        let totalAnswered = 0;
+        let optionsSelected = false;
+
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const progressEl = document.getElementById('progress');
+        const scoreEl = document.getElementById('score');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const shuffleBtn = document.getElementById('shuffle');
+        const feedbackEl = document.getElementById('feedback');
+
+        // Função para embaralhar um array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Função para gerar um número aleatório entre min e max (inclusive)
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Gerar opções de resposta (1 correta e 3 falsas)
+        function generateOptions(currentItem) {
+            const correctAnswer = currentItem.neighbors;
+            const currentNumber = currentItem.number;
+            let options = [correctAnswer];
+            
+            // Gerar 3 respostas falsas com o número atual no centro
+            for (let i = 0; i < 3; i++) {
+                let leftNum, rightNum;
+                
+                // Garantir que os números aleatórios são diferentes da resposta correta
+                do {
+                    leftNum = getRandomInt(0, 36);
+                    rightNum = getRandomInt(0, 36);
+                } while (leftNum + ", " + currentNumber + ", " + rightNum === correctAnswer);
+                
+                options.push(leftNum + ", " + currentNumber + ", " + rightNum);
+            }
+            
+            return shuffleArray(options);
+        }
+
+        // Mostrar o cartão atual
+        function showCard() {
+            const item = data[currentIndex];
+            questionEl.textContent = `Quais vizinhos do ${item.number}?`;
+            
+            // Limpar feedback e opções selecionadas
+            feedbackEl.textContent = '';
+            optionsSelected = false;
+            
+            // Gerar opções
+            const options = generateOptions(item);
+            
+            // Limpar opções anteriores
+            optionsEl.innerHTML = '';
+            
+            // Adicionar novas opções
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option;
+                button.addEventListener('click', () => checkAnswer(button, option, item.neighbors));
+                optionsEl.appendChild(button);
+            });
+            
+            // Atualizar barra de progresso
+            progressEl.style.width = `${((currentIndex + 1) / data.length) * 100}%`;
+        }
+
+        // Verificar resposta
+        function checkAnswer(button, selectedOption, correctOption) {
+            if (optionsSelected) return;
+            
+            optionsSelected = true;
+            totalAnswered++;
+            
+            // Mostrar todas as opções corretas/incorretas
+            const optionButtons = document.querySelectorAll('.option');
+            optionButtons.forEach(btn => {
+                if (btn.textContent === correctOption) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            if (selectedOption === correctOption) {
+                correctAnswers++;
+                feedbackEl.textContent = 'Correto!';
+                feedbackEl.style.color = '#2ecc71';
+            } else {
+                feedbackEl.textContent = 'Incorreto! A resposta correta é: ' + correctOption;
+                feedbackEl.style.color = '#e74c3c';
+            }
+            
+            // Atualizar pontuação
+            scoreEl.textContent = `Acertos: ${correctAnswers} / ${totalAnswered}`;
+        }
+
+        // Ir para o cartão anterior
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showCard();
+            }
+        });
+
+        // Ir para o próximo cartão
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < data.length - 1) {
+                currentIndex++;
+                showCard();
+            } else {
+                // Reiniciar quando chegar ao fim
+                currentIndex = 0;
+                showCard();
+            }
+        });
+
+        // Embaralhar os cartões
+        shuffleBtn.addEventListener('click', () => {
+            data = shuffleArray([...originalData]);
+            currentIndex = 0;
+            showCard();
+        });
+
+        // Iniciar com os cartões embaralhados
+        data = shuffleArray([...originalData]);
+        showCard();
+    </script>
+</body>
+</html>
